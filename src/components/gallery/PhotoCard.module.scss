@@ -1,0 +1,168 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+@use '../../styles/breakpoints' as bp;
+
+.card {
+  position: relative;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.link {
+  position: absolute;
+  inset: 0;
+  display: block;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.image {
+  object-fit: cover;
+  opacity: 0;
+  animation: fade-in 150ms ease-out forwards;
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 32px 12px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease-out;
+}
+
+.card:hover .overlay,
+.card:focus-within .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: inherit;
+  font-weight: 500;
+}
+
+.avatar {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source {
+  flex: 0 0 auto;
+  color: inherit;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.card:hover .actions,
+.card:focus-within .actions {
+  opacity: 1;
+}
+
+// no hover on touch, so keep it visible — but only where the tile is wide enough
+@media (hover: none) {
+  @include bp.sm {
+    .card[data-mode='3'] .actions {
+      opacity: 1;
+    }
+  }
+
+  @include bp.md {
+    .card[data-mode='5'] .actions {
+      opacity: 1;
+    }
+  }
+}
+
+// too narrow for an overlay: same credit, moved under the tile. Name truncates, "on Unsplash" wraps.
+@mixin credit-in-flow {
+  position: static;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0 6px;
+  padding: 6px 0 0;
+  background: none;
+  color: v.$color-muted;
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: 1;
+  pointer-events: auto;
+  transition: none;
+
+  .avatar {
+    display: none;
+  }
+
+  .author {
+    max-width: 100%;
+    color: v.$color-text;
+    font-weight: 600;
+  }
+
+  .source {
+    opacity: 1;
+  }
+}
+
+@media (max-width: #{v.$breakpoint-sm - 1px}) {
+  .overlay {
+    @include credit-in-flow;
+  }
+}
+
+@include bp.sm {
+  @media (max-width: #{v.$breakpoint-md - 1px}) {
+    .card[data-mode='5'] .overlay {
+      @include credit-in-flow;
+    }
+  }
+}

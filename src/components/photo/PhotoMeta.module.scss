@@ -1,0 +1,57 @@
+@use '../../styles/variables' as v;
+
+.meta {
+  margin-top: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 12px;
+  color: v.$color-muted;
+  font-size: 14px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 12px;
+  background: v.$color-surface;
+  border-radius: v.$radius-sm;
+  font-size: 14px;
+  color: v.$color-text;
+
+  &:hover {
+    text-decoration: none;
+    background: v.$color-border;
+  }
+}
+
+.attribution {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid v.$color-border;
+  color: v.$color-muted;
+  font-size: 14px;
+
+  a {
+    color: v.$color-text;
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,10 @@
+.frame {
+  position: relative;
+  width: 100%;
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: contain;
+}
