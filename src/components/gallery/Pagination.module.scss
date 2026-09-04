@@ -1,0 +1,70 @@
+@use '../../styles/variables' as v;
+
+.pagination {
+  margin-top: 32px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+%chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding-inline: 8px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  font-size: 14px;
+  color: v.$color-muted;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.page {
+  @extend %chip;
+
+  &:hover {
+    color: v.$color-text;
+    border-color: v.$color-text;
+  }
+}
+
+.current {
+  @extend %chip;
+
+  color: v.$color-bg;
+  background: v.$color-text;
+  border-color: v.$color-text;
+}
+
+.link {
+  @extend %chip;
+
+  &:hover {
+    color: v.$color-text;
+    border-color: v.$color-text;
+  }
+}
+
+// 50% opacity put the label near 2.3:1 — lighter border instead
+.disabled {
+  @extend %chip;
+
+  border-color: v.$color-border-soft;
+  cursor: default;
+}
+
+.ellipsis {
+  min-width: 24px;
+  text-align: center;
+  color: v.$color-muted;
+}

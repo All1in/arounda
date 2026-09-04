@@ -1,0 +1,36 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.wrapper {
+  display: block;
+}
+
+.grid {
+  @include m.masonry-grid;
+}
+
+.column {
+  @include m.masonry-column;
+}
+
+.tile {
+  width: 100%;
+  background: v.$color-surface;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    animation: none;
+  }
+}
