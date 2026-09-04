@@ -1,0 +1,40 @@
+@use '../../styles/variables' as v;
+
+.empty {
+  padding: 56px 0;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  margin-top: 8px;
+  color: v.$color-muted;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding-inline: 16px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: none;
+    border-color: v.$color-text;
+  }
+}
