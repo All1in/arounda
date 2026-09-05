@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { Photo } from '@/types/photo';
+import { MAX_PAGE } from '@/lib/pagination';
 import { unsplashFetch } from '@/lib/unsplash/client';
 import { UnsplashApiError } from '@/lib/unsplash/errors';
 import { normalizePhoto, normalizePhotos } from '@/lib/unsplash/normalize';
@@ -18,6 +19,11 @@ export interface FeedResult {
   total?: number;
 }
 
+// parsePage refuses to read past MAX_PAGE, so the count must not link past it either
+function clampPages(pages: number): number {
+  return Math.min(pages, MAX_PAGE);
+}
+
 export async function getPhotos({ page }: { page: number }): Promise<FeedResult> {
   const { data, total } = await unsplashFetch<RawUnsplashPhoto[]>(
     '/photos',
@@ -31,7 +37,7 @@ export async function getPhotos({ page }: { page: number }): Promise<FeedResult>
 
   return {
     photos: normalizePhotos(data),
-    totalPages: total === undefined ? null : Math.ceil(total / PER_PAGE),
+    totalPages: total === undefined ? null : clampPages(Math.ceil(total / PER_PAGE)),
     total,
   };
 }
@@ -56,7 +62,7 @@ export async function searchPhotos({
 
   return {
     photos: normalizePhotos(data?.results),
-    totalPages: typeof data?.total_pages === 'number' ? data.total_pages : 0,
+    totalPages: typeof data?.total_pages === 'number' ? clampPages(data.total_pages) : 0,
     total: typeof data?.total === 'number' ? data.total : 0,
   };
 }

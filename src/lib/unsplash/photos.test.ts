@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { MAX_PAGE } from '@/lib/pagination';
 import { UnsplashApiError } from '@/lib/unsplash/errors';
 import type { RawUnsplashPhoto } from '@/lib/unsplash/types';
 
@@ -53,6 +54,16 @@ describe('getPhotos', () => {
     expect(result.photos.map((photo) => photo.id)).toEqual(['a']);
   });
 
+  // the feed used to link to page 10648 while ?page= stopped at MAX_PAGE, so the URL,
+  // the title and the highlighted page all disagreed
+  it('never reports more pages than parsePage is willing to read', async () => {
+    unsplashFetch.mockResolvedValue({ data: [rawPhoto('a')], total: 319440 });
+
+    const result = await getPhotos({ page: 1 });
+
+    expect(result.totalPages).toBe(MAX_PAGE);
+  });
+
   it('reports an unknown page count as null rather than zero', async () => {
     unsplashFetch.mockResolvedValue({ data: [rawPhoto('a')], total: undefined });
 
@@ -104,6 +115,16 @@ describe('searchPhotos', () => {
     expect(result.photos.map((photo) => photo.id)).toEqual(['a', 'b']);
     expect(result.totalPages).toBe(12);
     expect(result.total).toBe(334);
+  });
+
+  it('caps the search page count the same way the feed does', async () => {
+    unsplashFetch.mockResolvedValue({
+      data: { results: [rawPhoto('a')], total: 500000, total_pages: 16666 },
+    });
+
+    const result = await searchPhotos({ query: 'lake', page: 1 });
+
+    expect(result.totalPages).toBe(MAX_PAGE);
   });
 
   it.each([
