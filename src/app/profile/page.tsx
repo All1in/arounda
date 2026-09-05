@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import GalleryToolbar from '@/components/gallery/GalleryToolbar';
+import DemoNotice from '@/features/account/DemoNotice';
 import ProfileCollection from '@/features/account/ProfileCollection';
 import { parsePage } from '@/lib/pagination';
 import { APP_NAME } from '@/lib/unsplash/attribution';
@@ -22,6 +23,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
         <h1>Your collection</h1>
       </GalleryToolbar>
 
+      <DemoNotice />
       <ProfileCollection page={page} />
     </>
   );

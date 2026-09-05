@@ -6,9 +6,9 @@ export const SAVED_KEY = 'gallery.saved';
 export const NAME_MIN_LENGTH = 2;
 export const NAME_MAX_LENGTH = 50;
 
-export const STORAGE_UNAVAILABLE_MESSAGE =
-  'Your browser is blocking site data. Check your privacy settings and try again.';
-export const DUPLICATE_EMAIL_MESSAGE = 'An account with this email already exists. Log in instead.';
+export const STORAGE_UNAVAILABLE_MESSAGE = 'Storage is unavailable in this browser.';
+export const DUPLICATE_EMAIL_MESSAGE =
+  'An account with this email already exists in this browser. Log in instead.';
 export const UNKNOWN_EMAIL_MESSAGE = 'We could not find an account with this email.';
 export const INVALID_EMAIL_MESSAGE = 'Enter a valid email address.';
 export const INVALID_NAME_MESSAGE = `Enter a name between ${NAME_MIN_LENGTH} and ${NAME_MAX_LENGTH} characters.`;
@@ -41,6 +41,8 @@ const SIGNED_OUT: PersistedAccount = { account: null, signedIn: false };
 
 const listeners = new Set<() => void>();
 let snapshot: StoreSnapshot | null = null;
+// only a failed read means storage is unusable; a failed write (a full quota) is transient
+// and must not hide the collection that would let the user free space again
 let storageAvailable = true;
 
 function storage(): Storage {
@@ -72,7 +74,6 @@ function write(key: string, value: unknown): boolean {
     storage().setItem(key, JSON.stringify(value));
     return true;
   } catch {
-    storageAvailable = false;
     return false;
   }
 }
@@ -274,23 +275,31 @@ export function isPhotoSaved(saved: Photo[], id: string): boolean {
   return saved.some((photo) => photo.id === id);
 }
 
-export function toggleSavedPhoto(photo: Photo): void {
+export function toggleSavedPhoto(photo: Photo): StoreResult {
   const { saved } = current();
   const next = isPhotoSaved(saved, photo.id)
     ? saved.filter((item) => item.id !== photo.id)
     : [photo, ...saved];
 
-  write(SAVED_KEY, next);
+  const written = write(SAVED_KEY, next);
   invalidate();
+
+  return written
+    ? { ok: true }
+    : { ok: false, field: 'form', message: STORAGE_UNAVAILABLE_MESSAGE };
 }
 
-export function removeSavedPhoto(id: string): void {
+export function removeSavedPhoto(id: string): StoreResult {
   const { saved } = current();
-  if (!isPhotoSaved(saved, id)) return;
+  if (!isPhotoSaved(saved, id)) return { ok: true };
 
-  write(
+  const written = write(
     SAVED_KEY,
     saved.filter((photo) => photo.id !== id),
   );
   invalidate();
+
+  return written
+    ? { ok: true }
+    : { ok: false, field: 'form', message: STORAGE_UNAVAILABLE_MESSAGE };
 }

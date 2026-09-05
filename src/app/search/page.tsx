@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import EmptyState from '@/components/feedback/EmptyState';
 import GalleryFeed from '@/components/gallery/GalleryFeed';
 import GalleryToolbar from '@/components/gallery/GalleryToolbar';
 import GridSkeleton from '@/components/gallery/GridSkeleton';
-import { COOKIE_NAME, parseLayoutMode } from '@/lib/layout-mode';
+import { getLayoutMode } from '@/lib/layout-mode.server';
 import { parsePage } from '@/lib/pagination';
 import { normalizeQuery } from '@/lib/search';
 import { APP_NAME } from '@/lib/unsplash/attribution';
@@ -30,7 +29,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams;
   const query = normalizeQuery(params.q);
   const page = parsePage(params.page);
-  const mode = parseLayoutMode((await cookies()).get(COOKIE_NAME)?.value);
+  const mode = await getLayoutMode();
 
   if (query === '') {
     return (

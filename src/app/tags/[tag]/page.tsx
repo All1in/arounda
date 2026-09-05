@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import GalleryFeed from '@/components/gallery/GalleryFeed';
 import GalleryToolbar from '@/components/gallery/GalleryToolbar';
 import GridSkeleton from '@/components/gallery/GridSkeleton';
-import { COOKIE_NAME, parseLayoutMode } from '@/lib/layout-mode';
+import { getLayoutMode } from '@/lib/layout-mode.server';
 import { parsePage } from '@/lib/pagination';
 import { normalizeQuery } from '@/lib/search';
 
-// Next 16 decodes params for generateMetadata but not for the page.
+// Next 16 hands `params` decoded to generateMetadata but percent-encoded to the page,
+// so only the page decodes. Decoding in both places double-decoded the tag.
 function decodeTagParam(raw: string): string {
   try {
     return decodeURIComponent(raw);
@@ -24,7 +24,7 @@ interface TagPageProps {
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
-  const tag = normalizeQuery(decodeTagParam((await params).tag));
+  const tag = normalizeQuery((await params).tag);
 
   return {
     title: `${tag} photos`,
@@ -37,7 +37,7 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
   if (tag === '') notFound();
 
   const page = parsePage((await searchParams).page);
-  const mode = parseLayoutMode((await cookies()).get(COOKIE_NAME)?.value);
+  const mode = await getLayoutMode();
 
   return (
     <>

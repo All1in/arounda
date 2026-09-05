@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import VisuallyHidden from '@/components/ui/VisuallyHidden';
 import { useAccount } from '@/features/account/useAccount';
 import { useSavedPhotos } from '@/features/account/useSavedPhotos';
@@ -32,6 +33,7 @@ export default function SaveButton({
   const router = useRouter();
   const { signedIn } = useAccount();
   const { isSaved, toggle } = useSavedPhotos();
+  const [error, setError] = useState<string | null>(null);
 
   const saved = isSaved(photo.id);
   const label = saved ? 'Remove from collection' : 'Save to collection';
@@ -41,18 +43,29 @@ export default function SaveButton({
       router.push('/login');
       return;
     }
-    toggle(photo);
+
+    const result = toggle(photo);
+    setError(result.ok ? null : result.message);
   }
 
   return (
-    <button
-      type="button"
-      className={variant === 'page' ? styles.pageButton : styles.cardButton}
-      aria-pressed={saved}
-      onClick={handleClick}
-    >
-      <ToggleIcon saved={saved} />
-      {variant === 'page' ? <span>{label}</span> : <VisuallyHidden>{label}</VisuallyHidden>}
-    </button>
+    <>
+      <button
+        type="button"
+        className={variant === 'page' ? styles.pageButton : styles.cardButton}
+        aria-pressed={saved}
+        onClick={handleClick}
+      >
+        <ToggleIcon saved={saved} />
+        {variant === 'page' ? <span>{label}</span> : <VisuallyHidden>{label}</VisuallyHidden>}
+      </button>
+
+      {/* a card tile has no room for the message; announce it either way */}
+      {error ? (
+        <span className={variant === 'page' ? styles.error : 'srOnly'} role="alert">
+          {error}
+        </span>
+      ) : null}
+    </>
   );
 }

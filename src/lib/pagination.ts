@@ -1,7 +1,7 @@
 export type PageRangeItem = number | 'ellipsis';
 
-// above anything Unsplash can produce (~10.6k), below where page arithmetic stops being exact
-export const MAX_PAGE = 100_000;
+// a deliberate ceiling: deep pages are all empty and each distinct one costs an API request
+export const MAX_PAGE = 500;
 
 export function parsePage(value: string | string[] | undefined): number {
   const raw = Array.isArray(value) ? value[0] : value;

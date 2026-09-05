@@ -1,0 +1,13 @@
+@use '../../styles/variables' as v;
+
+.notice {
+  margin-block: 16px;
+  padding: 10px 12px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  background: v.$color-surface;
+  color: v.$color-muted;
+  font-size: 13px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}

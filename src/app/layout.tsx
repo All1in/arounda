@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import LayoutModeProvider from '@/components/gallery/LayoutModeProvider';
 import AccountProvider from '@/features/account/AccountProvider';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import SkipLink from '@/components/layout/SkipLink';
-import { COOKIE_NAME, parseLayoutMode } from '@/lib/layout-mode';
+import { getLayoutMode } from '@/lib/layout-mode.server';
 import { APP_NAME } from '@/lib/unsplash/attribution';
 import './globals.scss';
 
@@ -21,7 +20,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const mode = parseLayoutMode((await cookies()).get(COOKIE_NAME)?.value);
+  const mode = await getLayoutMode();
 
   return (
     <html lang="en">

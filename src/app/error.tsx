@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import styles from './error.module.scss';
 
-export default function GlobalError({
+export default function RouteError({
   error,
   reset,
 }: {

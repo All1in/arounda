@@ -2,7 +2,12 @@
 
 import { useContext } from 'react';
 import { AccountContext } from '@/features/account/AccountProvider';
-import { isPhotoSaved, removeSavedPhoto, toggleSavedPhoto } from '@/features/account/store';
+import {
+  isPhotoSaved,
+  removeSavedPhoto,
+  toggleSavedPhoto,
+  type StoreResult,
+} from '@/features/account/store';
 import type { Photo } from '@/types/photo';
 
 const NONE: Photo[] = [];
@@ -11,8 +16,8 @@ export interface SavedPhotosView {
   saved: Photo[];
   ready: boolean;
   isSaved: (id: string) => boolean;
-  toggle: (photo: Photo) => void;
-  remove: (id: string) => void;
+  toggle: (photo: Photo) => StoreResult;
+  remove: (id: string) => StoreResult;
 }
 
 export function useSavedPhotos(): SavedPhotosView {

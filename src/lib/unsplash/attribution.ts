@@ -5,6 +5,7 @@ export function withUtm(url: string | null | undefined): string | null {
 
   try {
     const parsed = new URL(url);
+    if (parsed.protocol !== 'https:') return null;
     parsed.searchParams.set('utm_source', APP_NAME);
     parsed.searchParams.set('utm_medium', 'referral');
     return parsed.toString();

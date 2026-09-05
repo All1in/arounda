@@ -47,3 +47,9 @@
     color: v.$color-bg;
   }
 }
+
+.error {
+  align-self: center;
+  color: v.$color-danger;
+  font-size: 13px;
+}
