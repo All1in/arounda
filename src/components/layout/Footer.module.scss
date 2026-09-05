@@ -1,0 +1,29 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.footer {
+  margin-top: 48px;
+  padding-block: 24px;
+  border-top: 1px solid v.$color-border;
+}
+
+.inner {
+  @include m.container;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  justify-content: space-between;
+  align-items: center;
+  color: v.$color-muted;
+  font-size: 14px;
+}
+
+.credit a {
+  color: v.$color-text;
+  text-decoration: underline;
+}
+
+.name {
+  font-weight: 600;
+}

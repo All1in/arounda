@@ -1,0 +1,21 @@
+@use '../../styles/variables' as v;
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-block: 24px 20px;
+}
+
+.heading {
+  min-width: 0;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+  }
+}

@@ -1,0 +1,49 @@
+@use '../../styles/variables' as v;
+
+.cardButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: v.$radius-sm;
+  background: rgba(255, 255, 255, 0.92);
+  color: v.$color-text;
+  cursor: pointer;
+
+  &:hover {
+    background: v.$color-bg;
+  }
+
+  &[aria-pressed='true'] {
+    background: v.$color-text;
+    color: v.$color-bg;
+  }
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding-inline: 12px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  background: v.$color-bg;
+  color: v.$color-text;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: v.$color-text;
+  }
+
+  &[aria-pressed='true'] {
+    background: v.$color-text;
+    border-color: v.$color-text;
+    color: v.$color-bg;
+  }
+}

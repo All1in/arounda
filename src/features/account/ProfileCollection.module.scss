@@ -1,0 +1,31 @@
+@use '../../styles/variables' as v;
+
+.status {
+  padding-block: 48px;
+  color: v.$color-muted;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.identity {
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.count {
+  color: v.$color-muted;
+  font-size: 14px;
+}

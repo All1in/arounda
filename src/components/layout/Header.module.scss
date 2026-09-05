@@ -1,0 +1,64 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+@use '../../styles/breakpoints' as bp;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: v.$color-bg;
+  border-bottom: 1px solid v.$color-border;
+}
+
+.inner {
+  @include m.container;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding-block: 10px;
+}
+
+.wordmark {
+  flex: 0 0 auto;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+  &:hover {
+    text-decoration: none;
+    opacity: 0.7;
+  }
+}
+
+.search {
+  flex: 1 1 100%;
+  order: 3;
+}
+
+.account {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.searchFallback {
+  width: 100%;
+  height: 40px;
+  background: v.$color-surface;
+  border-radius: v.$radius-pill;
+}
+
+@include bp.sm {
+  .inner {
+    flex-wrap: nowrap;
+    min-height: v.$header-height;
+    padding-block: 0;
+  }
+
+  .search {
+    flex: 1 1 auto;
+    order: 0;
+    max-width: 720px;
+  }
+}

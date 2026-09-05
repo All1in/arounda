@@ -1,0 +1,19 @@
+@use '../../styles/variables' as v;
+
+.skipLink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateY(-120%);
+  padding: 10px 16px;
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: 0 0 v.$radius-sm 0;
+  font-weight: 600;
+
+  &:focus,
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}

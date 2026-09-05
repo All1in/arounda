@@ -1,0 +1,50 @@
+@use '../styles/variables' as v;
+
+.wrapper {
+  padding: 56px 0;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.description {
+  margin-top: 8px;
+  color: v.$color-muted;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.button,
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding-inline: 16px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: v.$color-text;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    border-color: v.$color-text;
+  }
+}
+
+.button {
+  background: v.$color-text;
+  color: v.$color-bg;
+  border-color: v.$color-text;
+}

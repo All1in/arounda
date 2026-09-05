@@ -1,0 +1,9 @@
+@use '../../styles/mixins' as m;
+
+.grid {
+  @include m.masonry-grid;
+}
+
+.column {
+  @include m.masonry-column;
+}

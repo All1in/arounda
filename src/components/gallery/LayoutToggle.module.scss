@@ -1,0 +1,31 @@
+@use '../../styles/variables' as v;
+
+.group {
+  display: flex;
+  gap: 4px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 32px;
+  appearance: none;
+  background: none;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  color: v.$color-muted;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$color-text;
+    border-color: v.$color-text;
+  }
+
+  &[aria-pressed='true'] {
+    color: v.$color-bg;
+    background: v.$color-text;
+    border-color: v.$color-text;
+  }
+}

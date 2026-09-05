@@ -1,0 +1,7 @@
+@use '../../styles/variables' as v;
+
+.total {
+  margin-bottom: 16px;
+  color: v.$color-muted;
+  font-size: 14px;
+}

@@ -1,0 +1,90 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+// stops the header shifting on mount: 55 + 12 + 75
+.placeholder {
+  flex: 0 0 auto;
+  width: 142px;
+  height: 32px;
+}
+
+.nav {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+// was 39x21 as a bare link, under the 24x24 minimum
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 8px;
+  color: v.$color-muted;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+    color: v.$color-text;
+  }
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  &:hover {
+    text-decoration: none;
+
+    .name {
+      color: v.$color-text;
+    }
+  }
+}
+
+.name {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: v.$color-muted;
+  font-weight: 500;
+}
+
+.logout {
+  @include m.reset-button;
+
+  color: v.$color-muted;
+  font-size: 14px;
+  white-space: nowrap;
+
+  &:hover {
+    color: v.$color-text;
+  }
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 12px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+    border-color: v.$color-text;
+  }
+}
+
+// tight row: avatar is enough, but keep the name for the link label
+@media (max-width: #{v.$breakpoint-sm - 1px}) {
+  .name {
+    @include m.sr-only;
+  }
+}
